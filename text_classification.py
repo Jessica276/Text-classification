@@ -127,7 +127,7 @@ class TextClassifier(nn.ModuleList):
 
         self.leakyRelu = nn.LeakyReLU(0.3)
 
-        self.dropout = nn.Dropout(DROPOUT)
+        #self.dropout = nn.Dropout(DROPOUT)
         self.embedding = nn.Embedding(num_embeddings=self.input_size, embedding_dim=self.hidden_dim, padding_idx=0)
         self.lstm = nn.LSTM(input_size=self.hidden_dim, hidden_size=self.hidden_dim, num_layers=self.LSTM_layers, batch_first=True, bidirectional=True)
 
@@ -146,9 +146,9 @@ class TextClassifier(nn.ModuleList):
 
         out = self.embedding(x)
         out, (hidden, cell) = self.lstm(out, (h, c))
-        out = self.dropout(out)
+        #out = self.dropout(out)
         out = self.leakyRelu(self.fc1(out[:,-1,:]))
-        out = self.dropout(out)
+        #out = self.dropout(out)
         out = torch.sigmoid(self.fc2(out))
 
         return out.squeeze()
